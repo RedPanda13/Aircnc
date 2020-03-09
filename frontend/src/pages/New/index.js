@@ -1,48 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
 import camera from '../../assets/camera.svg';
 
-import './styles.css';
+import './styles.css'; 
 
 export default function New() {
+    const [thumbnail, setThumbnail] = useState(null);
     const [company, setCompany] = useState('');
     const [techs, setTechs] = useState('');
-    const [price, setPrice] = useState('');
-    const [thumbnail, setThumbnail] = useState(null);
+    const [price, setPrice] = useState('');    
 
-   function handleSubmit() {
+    const preview = useMemo(()=>{
+        return thumbnail? URL.createObjectURL(thumbnail) : null;
+    }, [thumbnail])
 
-   }
-   
+    function handleSubmit( ){
+
+    }
+
     return (
-        <form onSubmit = {handleSubmit}>
-            <label id="thumbnail">
-                <input type="file" onChange={event => setThumbnail(event.target.files)} />
-                <img src={camera} alt="Select img" />
-            </label>
+        <form onSubmit={ handleSubmit }>
+            <label 
+             id="thumbnail"
+             style={{ backgroundImage: `url(${preview})` }}
+             className={thumbnail ? 'has-thumbnail' : ''}
+             >
+                <input type="file" onChange={event => setThumbnail(event.target.files[0])} />
+                <img src={camera}  alt="Select img" />
+            </label> 
 
             <label htmlFor="company">EMPRESA *</label>
-            <input
+            <input 
             id="company"
-            placeholder="Sua empresa incrivel"
+            placeholder="Sua empresa incrível"
             value={company}
-            onChange={event => setCompany(event.target.value)}
+            onChange={ event => setCompany(event.target.value)}
             />
 
-            <label htmlFor="techs">TECNOLOGIAS * <span>(separadas por virgula)</span></label>
-            <input
+            <label htmlFor="techs">TECNOLOGIAS * <span>(separadas por vírgula)</span></label>
+            <input 
             id="techs"
             placeholder="Quais tecnologias usam?"
             value={techs}
-            onChange={event => setTechs(event.target.value)}
+            onChange={ event => setTechs(event.target.value)}
             />
 
-            <label htmlFor="techs">VALOR DA DIÁRIA * <span>(em branco para GRATUITO)</span></label>
-            <input
+            <label htmlFor="price">VALOR DA DIÁRIA * <span>(em branco para GRATUITO)</span></label>
+            <input 
             id="price"
-            placeholder="Valor cobrado por dia"
+            placeholder="Valor cobrado por dia?"
             value={price}
-            onChange={event => setPrice(event.target.value)}
+            onChange={ event => setPrice(event.target.value)}
             />
 
             <button type="submit" className="btn">Cadastrar</button>
