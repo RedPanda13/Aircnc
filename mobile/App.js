@@ -7,7 +7,7 @@ export default function App() {
       <Text>Hello Omnistack</Text>
     </View>
   );
-}
+} 
 
 const styles = StyleSheet.create({
   container: {
